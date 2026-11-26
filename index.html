@@ -25,7 +25,6 @@
 <body>
   <div id="ruffle-container"></div>
 
-  <!-- Load Ruffle via CDN -->
   <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
   <script>
     window.RufflePlayer = window.RufflePlayer || {};
@@ -33,14 +32,19 @@
       const ruffle = window.RufflePlayer.newest();
       const player = ruffle.createPlayer();
       const container = document.getElementById("ruffle-container");
-      
-      // Make the player fill the container
+
       player.style.width = "100%";
       player.style.height = "100%";
       container.appendChild(player);
-      
-      // Load the SWF file (must be in the same folder as this HTML file)
-      player.load("5b.swf");
+
+      // Force relative asset requests (like levels.txt) to resolve from the current directory
+      const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
+
+      player.load({
+        url: "5b.swf",
+        base: baseUrl,
+        allowScriptAccess: true
+      });
     });
   </script>
 </body>
