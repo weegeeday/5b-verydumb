@@ -25,9 +25,19 @@
 <body>
   <div id="ruffle-container"></div>
 
-  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
   <script>
     window.RufflePlayer = window.RufflePlayer || {};
+    window.RufflePlayer.config = {
+      autoplay: "on",
+      unmuteOverlay: "visible",
+      compatibilityRules: true,
+      allowScriptAccess: true,
+      logLevel: "info",
+      preferredRenderer: "webgl"
+    };
+  </script>
+  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+  <script>
     window.addEventListener("load", () => {
       const ruffle = window.RufflePlayer.newest();
       const player = ruffle.createPlayer();
@@ -37,13 +47,11 @@
       player.style.height = "100%";
       container.appendChild(player);
 
-      // Force relative asset requests (like levels.txt) to resolve from the current directory
       const baseUrl = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
 
       player.load({
         url: "5b.swf",
-        base: baseUrl,
-        allowScriptAccess: true
+        base: baseUrl
       });
     });
   </script>
